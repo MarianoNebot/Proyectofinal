@@ -21,25 +21,19 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def inicio(request):
-    #avatares = (Avatar.objects.filter(user=request.user.id))
-
-    # , {"url": avatares[0].imagen.url})
     return render(request, "Apptp/inicio.html")
 
 
 def padre(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
-    return render(request, "Apptp/padre.html", {"url": avatares[0].imagen.url})
+    return render(request, "Apptp/padre.html")
 
 
 def listbd(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
-    return render(request, "Apptp/pages.html", {"url": avatares[0].imagen.url})
+    return render(request, "Apptp/pages.html")
 
 
 @login_required
 def amigoscoder(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
     if request.method == 'POST':
 
         # aquí mellega toda la información del html
@@ -62,12 +56,11 @@ def amigoscoder(request):
 
         miFormulario = AmigosCoderForm()  # Formulario vacio para construir el html
 
-    return render(request, "Apptp/amigoscoder.html", {"miFormulario": miFormulario, "url": avatares[0].imagen.url})
+    return render(request, "Apptp/amigoscoder.html", {"miFormulario": miFormulario})
 
 
 @login_required
 def amigos(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
     if request.method == 'POST':
 
         # aquí mellega toda la información del html
@@ -90,17 +83,16 @@ def amigos(request):
 
         miFormulario = AmigosForm()  # Formulario vacio para construir el html
 
-    return render(request, "Apptp/amigos.html", {"miFormulario": miFormulario, "url": avatares[0].imagen.url})
+    return render(request, "Apptp/amigos.html", {"miFormulario": miFormulario})
 
 
 def buscarFamiliar(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
     if request.GET["apellido"]:
 
         apellido = request.GET['apellido']
         familiar = Familiar.objects.filter(apellido__icontains=apellido)
 
-        return render(request, "Apptp/familiar.html", {"familiar": familiar, "apellido": apellido, "url": avatares[0].imagen.url})
+        return render(request, "Apptp/familiar.html", {"familiar": familiar, "apellido": apellido})
 
     else:
         respuesta = "No enviaste datos"
@@ -110,8 +102,6 @@ def buscarFamiliar(request):
 
 @login_required
 def familiar(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
-
     if request.method == 'POST':
 
         # aquí mellega toda la información del html
@@ -134,7 +124,7 @@ def familiar(request):
 
         miFormulario = FamiliarForm()  # Formulario vacio para construir el html
 
-    return render(request, "Apptp/familiar.html", {"miFormulario": miFormulario, "url": avatares[0].imagen.url})
+    return render(request, "Apptp/familiar.html", {"miFormulario": miFormulario})
 
 
 def leerFamiliar(request):
@@ -229,12 +219,11 @@ class FamiliarDelete(DeleteView):
 
 # Aca comienza el crud de AmigosCoder
 def buscarAmigosCoder(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
     if request.GET["apellido"]:
         apellido = request.GET['apellido']
         amigoscoder = AmigosCoder.objects.filter(apellido__icontains=apellido)
 
-        return render(request, "Apptp/amigoscoder.html", {"amigoscoder": amigoscoder, "apellido": apellido, "url": avatares[0].imagen.url})
+        return render(request, "Apptp/amigoscoder.html", {"amigoscoder": amigoscoder, "apellido": apellido})
 
     else:
         respuesta = "No enviaste datos"
@@ -317,12 +306,11 @@ class AmigosCoderDelete(DeleteView):
 
 # en la linea 28 esta definido amigos
 def buscarAmigos(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
     if request.GET["apellido"]:
         apellido = request.GET['apellido']
         amigos = Amigos.objects.filter(apellido__icontains=apellido)
 
-        return render(request, "Apptp/amigos.html", {"amigos": amigos, "apellido": apellido, "url": avatares[0].imagen.url})
+        return render(request, "Apptp/amigos.html", {"amigos": amigos, "apellido": apellido})
 
     else:
         respuesta = "No enviaste datos"
@@ -331,12 +319,11 @@ def buscarAmigos(request):
 
 
 def leeramigos(request):
-    avatares = Avatar.objects.filter(user=request.user.id)
     amigos = Amigos.objects.all()
 
     contexto = {"amigos": amigos}
 
-    return render(request, "Apptp/leeramigos.html", contexto, {"url": avatares[0].imagen.url})
+    return render(request, "Apptp/leeramigos.html", contexto)
 
 
 def eliminaramigos(request, amigos_nombre):
@@ -417,7 +404,7 @@ def login_request(request):
 
                 return render(request, {"mensaje": "Error, datos incorrectos"})
         else:
-            return render(request, "Apptp/inicio.html", {"mesanje": "Error, formulario erroneo"})
+            return render(request, "Apptp/inicio.html", {'mensaje': "Error, formulario erroneo"})
 
     form = AuthenticationForm()
 

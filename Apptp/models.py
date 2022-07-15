@@ -33,10 +33,3 @@ class AmigosCoder(models.Model):
 
     def __str__(self):
         return f"Nombre: {self.nombre} - Apellido {self.apellido} - E-Mail {self.email} - Telefono {self.telefono}"
-
-
-class Avatar(models.Model):
-    # vinculo con el usuario
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # subcarpeta avatares media
-    imagen = models.ImageField(upload_to='avatares', null=True, blank=True)
